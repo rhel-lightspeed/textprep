@@ -16,8 +16,6 @@ runs:
         python-version: ${{ inputs.python-version }}
 
     - name: Install Poetry
-      env:
-        POETRY_VERSION: "1.7.1"
       run: curl -sSL https://install.python-poetry.org | python - -y
       shell: bash
 
