@@ -37,3 +37,8 @@ def split_markdown_by_headers(content: str) -> list:
     markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
     doc_splits = markdown_splitter.split_text(content)
     return list(doc_splits) if doc_splits else []
+
+
+def remove_empty_sections(sections: list) -> list:
+    """Remove empty sections from markdown documents."""
+    return [x for x in sections if x.page_content.strip() != "(none)"]

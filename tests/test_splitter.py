@@ -2,6 +2,8 @@
 
 from unittest import mock
 
+from langchain_core.documents import Document
+
 from textprep import splitter
 
 
@@ -57,3 +59,13 @@ def test_parse_markdown_functional(errata_doc):
     assert "security update" in result["frontmatter"]["title"]
     assert "Synopsis" in result["content"][0].metadata["H2"]
     assert "Moderate" in result["content"][0].page_content
+
+
+def test_remove_empty_sections():
+    """Test removing empty sections."""
+    sections = [
+        Document(metadata={"H1": "header"}, page_content="Valid data"),
+        Document(metadata={"H2": "header"}, page_content="(none)"),
+    ]
+    result = splitter.remove_empty_sections(sections)
+    assert len(result) == 1
