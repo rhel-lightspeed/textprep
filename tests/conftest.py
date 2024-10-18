@@ -2,13 +2,15 @@
 
 import pytest
 
+EXAMPLE_DOCS_DIR = "tests/example_docs"
+EXAMPLE_DOCS = {
+    "errata": "RHSA-2022_0886.md",
+}
+
 
 def load_example_doc(doctype: str):
     """Load an example document."""
-    example_docs = {
-        "errata": "RHSA-2022_0886.md",
-    }
-    with open(f"tests/example_docs/{example_docs[doctype]}") as f:
+    with open(f"{EXAMPLE_DOCS_DIR}/{EXAMPLE_DOCS[doctype]}") as f:
         return f.read()
 
 
@@ -16,3 +18,9 @@ def load_example_doc(doctype: str):
 def errata_doc():
     """Load an example errata document."""
     return load_example_doc("errata")
+
+
+@pytest.fixture
+def errata_doc_path():
+    """Load an example errata document path."""
+    return f"{EXAMPLE_DOCS_DIR}/{EXAMPLE_DOCS["errata"]}"

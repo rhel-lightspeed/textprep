@@ -14,9 +14,7 @@ def clean_links(content: str) -> str:
     # Remove reference-style definitions: [ref]: URL
     content = re.sub(r"\n\s*\[[^\]]+\]:\s*(http[s]?:\/\/[^\s]+)", r" (\1)", content)
 
+    # Use regex to find URLs enclosed in angle brackets and remove the brackets
+    content = re.sub(r"<(https?://[^>]+)>", r"\1", content)
+
     return content.strip()
-
-
-def remove_sections(sections: list, excluded_sections: list) -> list:
-    """Remove sections from markdown documents."""
-    return [x for x in sections if next(iter(x.metadata.values())) not in excluded_sections]
