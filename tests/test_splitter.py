@@ -34,15 +34,16 @@ key = value
 +++
 
 ## Markdown header
+First.
 
-Markdown content
+Second.
 """
     result = splitter.parse_markdown(content)
     assert isinstance(result, dict)
     assert len(result) == 2
     assert result["frontmatter"] == {"key": "value"}
-    assert result["content"][0].metadata["H2"] == "Markdown header"
-    assert result["content"][0].page_content == "Markdown content"
+    assert result["content"][0].metadata["Header 2"] == "Markdown header"
+    assert result["content"][0].page_content == "First.\n\nSecond."
 
 
 def test_split_markdown_by_headers_failure():
@@ -57,15 +58,15 @@ def test_parse_markdown_functional(errata_doc):
     assert isinstance(result, dict)
     assert len(result) == 2
     assert "security update" in result["frontmatter"]["title"]
-    assert "Synopsis" in result["content"][0].metadata["H2"]
+    assert "Synopsis" in result["content"][0].metadata["Header 2"]
     assert "Moderate" in result["content"][0].page_content
 
 
 def test_remove_empty_sections():
     """Test removing empty sections."""
     sections = [
-        Document(metadata={"H1": "header"}, page_content="Valid data"),
-        Document(metadata={"H2": "header"}, page_content="(none)"),
+        Document(metadata={"Header 1": "header"}, page_content="Valid data"),
+        Document(metadata={"Header 2": "header"}, page_content="(none)"),
     ]
     result = splitter.remove_empty_sections(sections)
     assert len(result) == 1

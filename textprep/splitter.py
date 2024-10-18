@@ -2,7 +2,7 @@
 
 import tomllib
 
-from langchain_text_splitters import MarkdownHeaderTextSplitter
+from langchain_text_splitters.markdown import ExperimentalMarkdownSyntaxTextSplitter
 
 
 def parse_markdown(content: str) -> dict:
@@ -25,16 +25,8 @@ def parse_frontmatter(frontmatter: str) -> dict:
 
 
 def split_markdown_by_headers(content: str) -> list:
-    headers_to_split_on = [
-        ("#", "H1"),
-        ("##", "H2"),
-        ("###", "H3"),
-        ("####", "H4"),
-        ("#####", "H5"),
-        ("######", "H6"),
-    ]
-
-    markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
+    """Split the markdown content into sections based on headers."""
+    markdown_splitter = ExperimentalMarkdownSyntaxTextSplitter()
     doc_splits = markdown_splitter.split_text(content)
     return list(doc_splits) if doc_splits else []
 
