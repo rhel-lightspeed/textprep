@@ -4,6 +4,7 @@ import pytest
 from langchain_core.documents import Document
 
 from textprep.errata import (
+    affects_rhel,
     clean_bugzillas,
     clean_description,
     clean_solution,
@@ -170,3 +171,30 @@ This update fixes the these bugs:
 
 - BZ 2044863 found at https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=2044863"""
     assert result == expected
+
+
+def test_affects_rhel(tmp_path):
+    content = """+++
+portal_product_names=["Red Hat Enterprise Linux Server - Extended Life Cycle Support","Red Hat Enterprise Linux for x86_64 - Update Services for SAP Solutions","Red Hat Enterprise Linux for x86_64 - Extended Update Support","Red Hat Enterprise Linux Desktop","Red Hat Enterprise Linux Server - AUS","Red Hat Enterprise Linux EUS Compute Node","Red Hat Enterprise Linux Server - TUS","Red Hat Enterprise Linux Server","Red Hat Enterprise Linux Workstation","Red Hat Enterprise Linux Server from RHUI","Red Hat Enterprise Linux for Scientific Computing"]
++++
+
+# Heading
+
+Content.
+"""
+    d = tmp_path / "sub"
+    d.mkdir()
+    p = d / "errata.md"
+    p.write_text(content, encoding="utf-8")
+    assert affects_rhel(p)
+
+    content = """+++
+portal_product_names=["Red Hat OpenShift Enterprise Infrastructure","Red Hat OpenShift Enterprise Application Node","Red Hat OpenShift Enterprise JBoss EAP add-on","Red Hat OpenShift Enterprise Client Tools"]
++++
+
+# Heading
+
+Content.
+"""
+    p.write_text(content, encoding="utf-8")
+    assert not affects_rhel(p)

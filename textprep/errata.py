@@ -103,6 +103,13 @@ def get_affected_products(product_keys: list, product_detail: list) -> str:
     return "This errata affects the following products:\n\n" + product_text
 
 
+def affects_rhel(path: str) -> bool:
+    """Check if the errata affects RHEL."""
+    errata_doc = load_errata(path)
+    affected_products = errata_doc["frontmatter"]["portal_product_names"]
+    return any("Red Hat Enterprise Linux" in x for x in affected_products)
+
+
 def parse(path: str) -> str:
     """Parse an errata document into a clean format."""
     errata_doc = load_errata(path)
