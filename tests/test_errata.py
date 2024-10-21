@@ -175,6 +175,7 @@ This update fixes the these bugs:
 
 def test_affects_rhel(tmp_path):
     content = """+++
+[extra]
 portal_product_names=["Red Hat Enterprise Linux Server - Extended Life Cycle Support","Red Hat Enterprise Linux for x86_64 - Update Services for SAP Solutions","Red Hat Enterprise Linux for x86_64 - Extended Update Support","Red Hat Enterprise Linux Desktop","Red Hat Enterprise Linux Server - AUS","Red Hat Enterprise Linux EUS Compute Node","Red Hat Enterprise Linux Server - TUS","Red Hat Enterprise Linux Server","Red Hat Enterprise Linux Workstation","Red Hat Enterprise Linux Server from RHUI","Red Hat Enterprise Linux for Scientific Computing"]
 +++
 
@@ -189,6 +190,7 @@ Content.
     assert affects_rhel(p)
 
     content = """+++
+[extra]
 portal_product_names=["Red Hat OpenShift Enterprise Infrastructure","Red Hat OpenShift Enterprise Application Node","Red Hat OpenShift Enterprise JBoss EAP add-on","Red Hat OpenShift Enterprise Client Tools"]
 +++
 

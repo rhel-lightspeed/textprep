@@ -106,7 +106,7 @@ def get_affected_products(product_keys: list, product_detail: list) -> str:
 def affects_rhel(path: str) -> bool:
     """Check if the errata affects RHEL."""
     errata_doc = load_errata(path)
-    affected_products = errata_doc["frontmatter"]["portal_product_names"]
+    affected_products = errata_doc["frontmatter"]["extra"]["portal_product_names"]
     return any("Red Hat Enterprise Linux" in x for x in affected_products)
 
 
